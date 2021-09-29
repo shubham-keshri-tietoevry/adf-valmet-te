@@ -1,0 +1,25 @@
+{
+	"name": "Flexim_to_dps",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "flexim",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "flexim"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "SftpLocation",
+				"folderPath": "/home/siirto/syyajat"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,30 @@
+{
+	"name": "valmetdw_dps_adls2_dps_sales_order_sap_view_parquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dlsdpseuw001",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "customer_orders"
+		},
+		"annotations": [
+			"BranchVersion:1.0000",
+			"PipelineVersion:1.0000",
+			"TemplateVersion:1.0000",
+			"TemplateName:Create.ADFV2.Copy.OnPrem.2.ADLS2.Parquet"
+		],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "DPS.SALES_ORDER_SAP_VIEW.parquet",
+				"folderPath": "valmetdw",
+				"fileSystem": "staging"
+			},
+			"compressionCodec": "gzip"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,39 @@
+{
+	"name": "repit",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "akvdpseuw001",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "repit-connectionstring"
+			},
+			"userName": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "akvdpseuw001",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "repit-username"
+			},
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "akvdpseuw001",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "repit-password"
+			}
+		},
+		"connectVia": {
+			"referenceName": "dfreareuw001",
+			"type": "IntegrationRuntimeReference"
+		},
+		"description": "RepIt OnPrem SQL connection",
+		"annotations": []
+	}
+}

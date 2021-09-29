@@ -1,0 +1,25 @@
+{
+	"name": "qlikview_folder_share",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "The folder where we upload the Spotlight dataset so it can be used for reporting with Viewpoint",
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "\\\\VAAS0466A\\QlikView Storage",
+			"userId": "Vstage\\SRV_DPSSQLREAD_PROD",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "akvdpseuw001",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "ompremfile-password"
+			}
+		},
+		"connectVia": {
+			"referenceName": "dfreareuw001",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

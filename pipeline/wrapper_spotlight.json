@@ -1,0 +1,98 @@
+{
+	"name": "wrapper_spotlight",
+	"properties": {
+		"activities": [
+			{
+				"name": "dps_viewpoint",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Spotlight Mapping",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "dps_viewpoint",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "spotlight_to_dps",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "spotlight_to_dps",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"windowStart": {
+							"value": "@pipeline().parameters.windowStart",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "Spotlight Mapping",
+				"type": "DatabricksSparkJar",
+				"dependsOn": [
+					{
+						"activity": "spotlight_to_dps",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.00:30:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"mainClassName": "com.valmet.dps.SpotlightPipeline",
+					"parameters": [
+						"@pipeline().globalParameters.environment"
+					],
+					"libraries": [
+						{
+							"maven": {
+								"coordinates": "com.databricks:spark-xml_2.12:0.10.0"
+							}
+						},
+						{
+							"jar": "dbfs:/pipelines_2.12-1.0.jar"
+						}
+					]
+				},
+				"linkedServiceName": {
+					"referenceName": "dps_jobs_cluster",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"windowStart": {
+				"type": "string",
+				"defaultValue": "2021-01-02T15:00:00Z"
+			}
+		},
+		"folder": {
+			"name": "Spotlight"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-09-28T12:53:42Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

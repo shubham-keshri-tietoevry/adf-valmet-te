@@ -1,0 +1,25 @@
+{
+	"name": "WeeklyTrigger_Flexim_to_Bam",
+	"properties": {
+		"description": "This trigger run once a week to copy data from Flexim to BAM",
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Flexim_to_dps",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Week",
+				"interval": 1,
+				"startTime": "2021-09-09T12:00:00",
+				"timeZone": "E. Europe Standard Time"
+			}
+		}
+	}
+}

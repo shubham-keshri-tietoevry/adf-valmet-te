@@ -1,0 +1,16 @@
+{
+	"name": "ds_ln_muat",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LN_MUAT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ln-datasets"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

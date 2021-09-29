@@ -1,0 +1,273 @@
+{
+	"name": "valmetdw_dps_onprem_dps_sales_order_baan_view",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "valmetdw",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "customer_orders"
+		},
+		"annotations": [
+			"BranchVersion:1.0000",
+			"PipelineVersion:1.0000",
+			"TemplateVersion:1.0000",
+			"TemplateName:Create.ADFV2.Copy.OnPrem.2.ADLS2.Parquet"
+		],
+		"type": "SqlServerTable",
+		"structure": [
+			{
+				"name": "COMPANY_HOME",
+				"type": "String"
+			},
+			{
+				"name": "SOURCE",
+				"type": "String"
+			},
+			{
+				"name": "ORDERID",
+				"type": "String"
+			},
+			{
+				"name": "ORDER_STATUS",
+				"type": "Int32"
+			},
+			{
+				"name": "ORDER_STATUS_NAME",
+				"type": "String"
+			},
+			{
+				"name": "ORDER_ROW",
+				"type": "String"
+			},
+			{
+				"name": "ORDER_ROW_STATUS",
+				"type": "Int32"
+			},
+			{
+				"name": "ORDER_ROW_STATUS_NAME",
+				"type": "String"
+			},
+			{
+				"name": "ITEMID",
+				"type": "String"
+			},
+			{
+				"name": "ITEM_NAME",
+				"type": "String"
+			},
+			{
+				"name": "ORDER_DATE",
+				"type": "DateTime"
+			},
+			{
+				"name": "DELIVERY_DATE",
+				"type": "DateTime"
+			},
+			{
+				"name": "ORDERID_CUSTOMER",
+				"type": "String"
+			},
+			{
+				"name": "PROJECT_ID",
+				"type": "String"
+			},
+			{
+				"name": "QUANTITY",
+				"type": "Decimal"
+			},
+			{
+				"name": "UNIT",
+				"type": "String"
+			},
+			{
+				"name": "AMOUNT_OCUR",
+				"type": "Decimal"
+			},
+			{
+				"name": "PRICE_OCUR",
+				"type": "Decimal"
+			},
+			{
+				"name": "CURRENCY",
+				"type": "String"
+			},
+			{
+				"name": "CUSTOMER_ID",
+				"type": "Int32"
+			},
+			{
+				"name": "CUSTOMER_NAME",
+				"type": "String"
+			},
+			{
+				"name": "CUSTOMER_SITE",
+				"type": "String"
+			},
+			{
+				"name": "DATESTORED_DW",
+				"type": "DateTime"
+			},
+			{
+				"name": "UPDATE_STAMP",
+				"type": "DateTime"
+			},
+			{
+				"name": "CREATE_STAMP",
+				"type": "DateTime"
+			},
+			{
+				"name": "DELETE_STAMP",
+				"type": "DateTime"
+			},
+			{
+				"name": "RECORDTYPE_DESC",
+				"type": "String"
+			},
+			{
+				"name": "CUSTOMER_ITEM_CODE",
+				"type": "String"
+			},
+			{
+				"name": "CORPORATION_ID",
+				"type": "Int32"
+			},
+			{
+				"name": "CORPORATION_NAME",
+				"type": "String"
+			},
+			{
+				"name": "CUSTOMER_NAME_B",
+				"type": "String"
+			},
+			{
+				"name": "ERP_CUSTOMER_ID",
+				"type": "String"
+			},
+			{
+				"name": "CUSTOMER_MILL_ID",
+				"type": "String"
+			},
+			{
+				"name": "SALES_OFFICE",
+				"type": "String"
+			},
+			{
+				"name": "SALES_OFFICE_DESC",
+				"type": "String"
+			},
+			{
+				"name": "SALES_PERSON",
+				"type": "Int32"
+			},
+			{
+				"name": "SALES_PERSON_DESC",
+				"type": "String"
+			},
+			{
+				"name": "SHIPPING_DATE",
+				"type": "DateTime"
+			},
+			{
+				"name": "ESTIMATED_DATE_OF_ARRIVAL",
+				"type": "DateTime"
+			},
+			{
+				"name": "ACTUAL_DATE_OF_ARRIVAL",
+				"type": "DateTime"
+			},
+			{
+				"name": "SHIPPING_STATUS",
+				"type": "String"
+			},
+			{
+				"name": "CARRIER",
+				"type": "String"
+			},
+			{
+				"name": "TRACKING_NUMBER",
+				"type": "String"
+			},
+			{
+				"name": "CTP_HORIZON",
+				"type": "Int32"
+			},
+			{
+				"name": "ESTIMATED_DATE_OF_DEPARTURE",
+				"type": "DateTime"
+			},
+			{
+				"name": "CUSTOMER_PURCHASER",
+				"type": "String"
+			},
+			{
+				"name": "SHIPPING_MARK",
+				"type": "Int32"
+			},
+			{
+				"name": "SALES_OFFICE_LOCATION",
+				"type": "String"
+			},
+			{
+				"name": "REFERENCE_A",
+				"type": "String"
+			},
+			{
+				"name": "REFERENCE_B",
+				"type": "String"
+			},
+			{
+				"name": "SEARCH_KEY",
+				"type": "String"
+			},
+			{
+				"name": "MACHINE",
+				"type": "String"
+			},
+			{
+				"name": "MACHINE_POSITION",
+				"type": "String"
+			},
+			{
+				"name": "PRODUCT_GROUP_FABRICS",
+				"type": "String"
+			},
+			{
+				"name": "PRODUCT_GROUP_FABRICS_DESC",
+				"type": "String"
+			},
+			{
+				"name": "ORGANISATION_LEVEL_F",
+				"type": "String"
+			},
+			{
+				"name": "ORGANISATION_LEVEL_F_DESC",
+				"type": "String"
+			},
+			{
+				"name": "ORGANISATION_LEVEL_F2",
+				"type": "String"
+			},
+			{
+				"name": "ORGANISATION_LEVEL_F2_DESC",
+				"type": "String"
+			},
+			{
+				"name": "SALES_ORDER_TYPE",
+				"type": "String"
+			},
+			{
+				"name": "SALES_ORDER_TYPE_DESC",
+				"type": "String"
+			},
+			{
+				"name": "DELIVERY_TERMS",
+				"type": "String"
+			}
+		],
+		"typeProperties": {
+			"tableName": "[DPS].[SALES_ORDER_BAAN_VIEW]"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

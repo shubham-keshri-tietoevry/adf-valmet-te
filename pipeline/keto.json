@@ -1,0 +1,92 @@
+{
+	"name": "keto",
+	"properties": {
+		"activities": [
+			{
+				"name": "Request_body",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "keto_api_points",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Request_body",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Request_body').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Fetch_token",
+							"type": "WebActivity",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"url": "https://valmet.ketoapps.com/core/login/integrationtoken/ketonen",
+								"method": "POST",
+								"body": {
+									"Username": "ketorest_prod",
+									"Password": "[&@a9jM7Be{/2Rmb"
+								}
+							}
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"Fetch_token": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "keto"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-09-28T12:36:55Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

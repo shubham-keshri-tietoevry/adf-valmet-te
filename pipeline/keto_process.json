@@ -1,0 +1,218 @@
+{
+	"name": "keto_process",
+	"properties": {
+		"activities": [
+			{
+				"name": "API Request Bodies",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Get-keto-api-user",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Get-keto-api-password",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "keto_api_req_bodies",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "API Requests",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "API Request Bodies",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('API Request Bodies').output.value",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"batchCount": 5,
+					"activities": [
+						{
+							"name": "Copy data keto API",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Get-Token",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": true
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "RestSource",
+									"httpRequestTimeout": "00:45:00",
+									"requestInterval": "00.00:00:00.010",
+									"requestMethod": "POST",
+									"requestBody": {
+										"value": "@{item().RequestBody}",
+										"type": "Expression"
+									},
+									"additionalHeaders": {
+										"Content-Type": "application/json",
+										"key": "ketonen",
+										"token": {
+											"value": "@activity('Get-Token').output.response",
+											"type": "Expression"
+										}
+									}
+								},
+								"sink": {
+									"type": "JsonSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "JsonWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "keto_api",
+									"type": "DatasetReference",
+									"parameters": {
+										"relativeURL": "/integration/where"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "keto_api_json",
+									"type": "DatasetReference",
+									"parameters": {
+										"Folder": {
+											"value": "keto/@{formatDateTime(utcnow(),'yyyy')}-@{formatDateTime(utcnow(),'MM')}-@{formatDateTime(utcnow(),'dd')}",
+											"type": "Expression"
+										},
+										"Filename": {
+											"value": "@item().Filename",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						},
+						{
+							"name": "Get-Token",
+							"type": "WebActivity",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": true,
+								"secureInput": true
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"url": "https://valmet.ketoapps.com/core/login/integrationtoken/ketonen",
+								"method": "POST",
+								"body": {
+									"value": "@concat('{\"Username\":\"',activity('Get-keto-api-user').output.value,'\",\"Password\":\"',activity('Get-keto-api-password').output.value,'\"}')",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Get-keto-api-user",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": true,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://akv-dps-euw-dv-001.vault.azure.net/secrets/keto-api-user?api-version=7.0",
+					"method": "GET",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://vault.azure.net"
+					}
+				}
+			},
+			{
+				"name": "Get-keto-api-password",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": true,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://akv-dps-euw-dv-001.vault.azure.net/secrets/keto-api-password?api-version=7.0",
+					"method": "GET",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://vault.azure.net"
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "keto"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-09-28T12:52:54Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

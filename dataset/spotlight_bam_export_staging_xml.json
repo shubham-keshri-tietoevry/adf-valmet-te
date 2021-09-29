@@ -1,0 +1,31 @@
+{
+	"name": "spotlight_bam_export_staging_xml",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dlsdpseuw001",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"method": {
+				"type": "string"
+			},
+			"prefix": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@{dataset().prefix}/@{dataset().method}.xml",
+					"type": "Expression"
+				},
+				"folderPath": "spotlight/bam-export",
+				"fileSystem": "staging"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

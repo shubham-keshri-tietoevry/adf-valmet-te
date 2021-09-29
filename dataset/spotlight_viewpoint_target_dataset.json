@@ -1,0 +1,24 @@
+{
+	"name": "spotlight_viewpoint_target_dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "qlikview_folder_share",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation",
+				"fileName": "viewpoint-export.csv",
+				"folderPath": "Imported files\\power\\HSE\\Spotlight"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

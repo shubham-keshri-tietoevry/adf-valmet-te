@@ -1,0 +1,11 @@
+{
+	"name": "dlsdpseuwshare001",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://dlsdpseuwdvshare001.dfs.core.windows.net/"
+		}
+	}
+}

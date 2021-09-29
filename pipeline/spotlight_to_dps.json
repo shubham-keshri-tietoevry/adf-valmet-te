@@ -1,0 +1,180 @@
+{
+	"name": "spotlight_to_dps",
+	"properties": {
+		"description": "Pipeline issues queries to the spotlight SOAP web service to access the needed location information",
+		"activities": [
+			{
+				"name": "spotlight_accidents_to_datalake",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "retrieve_password",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "15:00:00",
+					"retry": 1,
+					"retryIntervalInSeconds": 60,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "/ws/xmlexport.asmx"
+					},
+					{
+						"name": "Destination",
+						"value": "staging/spotlight/accidents/@utcnow('yyyy-MM-dd').xml"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "BinarySource",
+						"storeSettings": {
+							"type": "HttpReadSettings",
+							"requestMethod": "POST",
+							"additionalHeaders": "Content-Type: application/soap+xml; charset=utf-8",
+							"requestBody": {
+								"value": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap12:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\n  <soap12:Body>\n    <ExtractXML xmlns=\"https://www.rivosafeguard.com/ws\">\n      <strUsername>webservice_export</strUsername>\n      <strPassword>@{activity('retrieve_password').output.value}</strPassword>\n      <strGUID>D6F7006E5B5A49669E11</strGUID>\n      <strXML>\n            &lt;export&gt; \n                &lt;type&gt;accidents&lt;/type&gt;\n                &lt;startdate&gt;2019-12-01&lt;/startdate&gt; \n                &lt;enddate&gt;@{formatDateTime(pipeline().parameters.windowStart, 'yyyy-MM-dd')}&lt;/enddate&gt; \n            &lt;/export&gt; \n\t</strXML>\n    </ExtractXML>\n  </soap12:Body>\n</soap12:Envelope>",
+								"type": "Expression"
+							},
+							"requestTimeout": ""
+						},
+						"formatSettings": {
+							"type": "BinaryReadSettings"
+						}
+					},
+					"sink": {
+						"type": "BinarySink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "spotlight_source",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "spotlight_accidents_target",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "retrieve_password",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": true,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://akv-dps-euw-dv-001.vault.azure.net/secrets/spotlight-soap-pass/217e80462cc84fbdb4b9685b260ef6cf?api-version=7.0",
+					"method": "GET",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://vault.azure.net"
+					}
+				}
+			},
+			{
+				"name": "spotlight_users_to_datalake",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "retrieve_password",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "spotlight_accidents_to_datalake",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "00:10:00",
+					"retry": 1,
+					"retryIntervalInSeconds": 180,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "/ws/xmlexport.asmx"
+					},
+					{
+						"name": "Destination",
+						"value": "staging/spotlight/accidents/@utcnow('yyyy-MM-dd').xml"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "BinarySource",
+						"storeSettings": {
+							"type": "HttpReadSettings",
+							"maxConcurrentConnections": 1,
+							"requestMethod": "POST",
+							"additionalHeaders": "Content-Type: application/soap+xml; charset=utf-8",
+							"requestBody": {
+								"value": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap12:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\n  <soap12:Body>\n    <ExtractXML xmlns=\"https://www.rivosafeguard.com/ws\">\n      <strUsername>webservice_export</strUsername>\n      <strPassword>@{activity('retrieve_password').output.value}</strPassword>\n      <strGUID>D6F7006E5B5A49669E11</strGUID>\n      <strXML>\n            &lt;export&gt; \n                &lt;type&gt;users&lt;/type&gt; \n            &lt;/export&gt; \n\t</strXML>\n    </ExtractXML>\n  </soap12:Body>\n</soap12:Envelope>",
+								"type": "Expression"
+							},
+							"requestTimeout": "0.00:08:00"
+						},
+						"formatSettings": {
+							"type": "BinaryReadSettings"
+						}
+					},
+					"sink": {
+						"type": "BinarySink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings",
+							"maxConcurrentConnections": 1
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "spotlight_source",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "spotlight_users_target",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"parameters": {
+			"windowStart": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "Spotlight"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-09-28T12:53:41Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

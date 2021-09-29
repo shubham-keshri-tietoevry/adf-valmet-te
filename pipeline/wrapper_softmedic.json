@@ -1,0 +1,92 @@
+{
+	"name": "wrapper_softmedic",
+	"properties": {
+		"activities": [
+			{
+				"name": "Softmedic transformations",
+				"type": "DatabricksSparkJar",
+				"dependsOn": [
+					{
+						"activity": "Get Softmedic data to cloud",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.00:30:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"mainClassName": "com.valmet.dps.SoftmedicTransformations",
+					"parameters": [
+						"@pipeline().globalParameters.environment"
+					],
+					"libraries": [
+						{
+							"maven": {
+								"coordinates": "com.databricks:spark-xml_2.12:0.10.0"
+							}
+						},
+						{
+							"jar": "dbfs:/pipelines_2.12-1.0.jar"
+						}
+					]
+				},
+				"linkedServiceName": {
+					"referenceName": "dps_jobs_cluster",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Get Softmedic data to cloud",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "softmedic_copy_files",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "dps_softmedic_share",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Softmedic transformations",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "dps_softmedic_share",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"parameters": {
+			"windowStart": {
+				"type": "string",
+				"defaultValue": "2021-01-02T15:00:00Z"
+			}
+		},
+		"folder": {
+			"name": "softmedic"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-09-28T12:52:56Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

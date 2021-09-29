@@ -1,0 +1,31 @@
+{
+	"name": "wrapper_repit_stg",
+	"properties": {
+		"activities": [
+			{
+				"name": "wrapper_repit_stg_1",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "wrapper_repit_stg_1",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "customer_orders"
+		},
+		"annotations": [
+			"BranchVersion:1.0000",
+			"PipelineVersion:1.0000",
+			"TemplateVersion:1.0000",
+			"TemplateName:Create.ADFV2.Pipeline"
+		],
+		"lastPublishTime": "2021-09-28T12:52:56Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

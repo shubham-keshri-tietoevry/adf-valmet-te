@@ -1,0 +1,30 @@
+{
+	"name": "keto_raw_import",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dlsdpseuwraw001",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Folder": {
+				"type": "string"
+			},
+			"File": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "keto"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "keto"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

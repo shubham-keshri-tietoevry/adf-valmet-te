@@ -1,0 +1,17 @@
+{
+	"name": "dataset_source_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "repit",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dps",
+			"table": "SalesOrdersToSalesForce"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

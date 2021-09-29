@@ -1,0 +1,58 @@
+{
+	"name": "repit_dps_salesorderstosalesforce",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_2_ADLS2",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlSource",
+						"partitionOption": "None",
+						"query": "SELECT a.[COMPANY_HOME],a.[SOURCE],a.[ORDERID],a.[ORDER_STATUS],a.[ORDER_STATUS_NAME],a.[ORDER_ROW],a.[ORDER_ROW_STATUS],a.[ORDER_ROW_STATUS_NAME],a.[ITEMID],a.[ITEM_NAME],a.[ORDER_DATE],a.[DELIVERY_DATE],a.[ORDERID_CUSTOMER],a.[PROJECT_ID],a.[QUANTITY],a.[UNIT],a.[AMOUNT_OCUR],a.[PRICE_OCUR],a.[CURRENCY],a.[CUSTOMER_ID],a.[CUSTOMER_NAME],a.[CUSTOMER_SITE],a.[UPDATE_STAMP],a.[CREATE_STAMP],a.[DELETE_STAMP] FROM [dps].[SalesOrdersToSalesForce] a "
+					},
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "repit_onprem_dps_salesorderstosalesforce",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "repit_adls2_dps_salesorderstosalesforce_parquet",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "customer_orders"
+		},
+		"annotations": [
+			"BranchVersion:1.0000",
+			"PipelineVersion:1.0000",
+			"TemplateVersion:1.0000",
+			"TemplateName:Create.ADFV2.Copy.OnPrem.2.ADLS2.Parquet"
+		],
+		"lastPublishTime": "2021-09-28T12:52:55Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

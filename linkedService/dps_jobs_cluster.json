@@ -1,0 +1,20 @@
+{
+	"name": "dps_jobs_cluster",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureDatabricks",
+		"typeProperties": {
+			"domain": "https://adb-7927301407010745.5.azuredatabricks.net/",
+			"authentication": "MSI",
+			"workspaceResourceId": "/subscriptions/3035ea77-3a0d-432b-8a69-4f09e32ce80d/resourceGroups/rgp-dps-euw-dv-dps/providers/Microsoft.Databricks/workspaces/adb-dps-euw-dv-001",
+			"instancePoolId": "1207-150230-aquas325-pool-CXnWfYMq",
+			"newClusterNumOfWorker": "1",
+			"newClusterSparkEnvVars": {
+				"PYSPARK_PYTHON": "/databricks/python3/bin/python3"
+			},
+			"newClusterVersion": "7.3.x-scala2.12",
+			"newClusterInitScripts": []
+		}
+	}
+}

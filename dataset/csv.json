@@ -1,0 +1,28 @@
+{
+	"name": "csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dlsdpseuwdvraw001",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ln-datasets"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "ttisfc0011001.csv",
+				"folderPath": "muat/raw",
+				"fileSystem": "infor-ln"
+			},
+			"columnDelimiter": ",",
+			"compressionCodec": "gzip",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

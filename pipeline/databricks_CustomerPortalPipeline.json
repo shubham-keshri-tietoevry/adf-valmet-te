@@ -1,0 +1,41 @@
+{
+	"name": "databricks_CustomerPortalPipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "CustomerPortalPipeline",
+				"type": "DatabricksSparkJar",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"mainClassName": "com.valmet.dps.CustomerPortalPipeline",
+					"parameters": [
+						"@pipeline().globalParameters.environment"
+					],
+					"libraries": [
+						{
+							"jar": "dbfs:/pipelines_2.12-1.0.jar"
+						}
+					]
+				},
+				"linkedServiceName": {
+					"referenceName": "dps_jobs_cluster",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"folder": {
+			"name": "customer_orders"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-09-28T12:52:53Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

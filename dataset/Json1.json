@@ -1,0 +1,24 @@
+{
+	"name": "Json1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dlsdpseuwdvraw001",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ln-datasets"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "ttisfc0011001.json",
+				"folderPath": "muat/raw",
+				"fileSystem": "infor-ln"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

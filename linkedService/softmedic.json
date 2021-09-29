@@ -1,0 +1,28 @@
+{
+	"name": "softmedic",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "Sftp",
+		"typeProperties": {
+			"host": "80.248.168.47",
+			"port": 22,
+			"skipHostKeyValidation": false,
+			"hostKeyFingerprint": "ssh-dss 1024 d9:0b:0c:70:c1:0e:0c:af:1d:e4:cb:4f:c0:95:e9:f7",
+			"authenticationType": "Basic",
+			"userName": "vmtrapo2nd",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "akvdpseuw001",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "softmedic-password"
+			}
+		},
+		"connectVia": {
+			"referenceName": "dfreareuw001",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

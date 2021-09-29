@@ -1,0 +1,65 @@
+{
+	"name": "wrapper",
+	"properties": {
+		"activities": [
+			{
+				"name": "wrapper_valmetdw_dps_stg",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "wrapper_valmetdw_dps_stg",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "wrapper_repit_stg",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "wrapper_repit_stg",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "databricks_CustomerPortalPipeline",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "wrapper_valmetdw_dps_stg",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "wrapper_repit_stg",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "databricks_CustomerPortalPipeline",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "customer_orders"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-09-28T12:52:57Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,35 @@
+{
+	"name": "keto_api_req_bodies",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dlsdpseuw001",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "keto"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "body_v2.csv",
+				"folderPath": "keto",
+				"fileSystem": "staging"
+			},
+			"columnDelimiter": "|",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

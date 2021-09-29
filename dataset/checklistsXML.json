@@ -1,0 +1,21 @@
+{
+	"name": "checklistsXML",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dlsdpseuw001",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Xml",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "checklists.xml",
+				"folderPath": "spotlight/checklists",
+				"fileSystem": "staging"
+			},
+			"nullValue": ""
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

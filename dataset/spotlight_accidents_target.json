@@ -1,0 +1,24 @@
+{
+	"name": "spotlight_accidents_target",
+	"properties": {
+		"description": "Query response written as XML file",
+		"linkedServiceName": {
+			"referenceName": "dlsdpseuw001",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "accidents/accidents.xml",
+					"type": "Expression"
+				},
+				"folderPath": "spotlight",
+				"fileSystem": "staging"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

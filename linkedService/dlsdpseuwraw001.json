@@ -1,0 +1,11 @@
+{
+	"name": "dlsdpseuwraw001",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://dlsdpseuwdvraw001.dfs.core.windows.net"
+		}
+	}
+}

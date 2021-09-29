@@ -1,0 +1,68 @@
+{
+	"name": "_orchestrate_keto",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get allow-processing",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://akv-dps-euw-dv-001.vault.azure.net/secrets/allow-processing?api-version=7.0",
+					"method": "GET",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://vault.azure.net"
+					}
+				}
+			},
+			{
+				"name": "Allow Processing",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Get allow-processing",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(activity('Get allow-processing').output.value,'TRUE')",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Process Keto",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "keto_process",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
+			}
+		],
+		"folder": {
+			"name": "keto"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-09-28T12:52:54Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

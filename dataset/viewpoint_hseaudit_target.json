@@ -1,0 +1,177 @@
+{
+	"name": "viewpoint_hseaudit_target",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "VAAS0466AQlikViewStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation",
+				"fileName": "hseaudit.csv",
+				"folderPath": "Imported files/power/HSE/Spotlight"
+			},
+			"columnDelimiter": ";",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Date of creation",
+				"type": "String"
+			},
+			{
+				"name": "Business Line",
+				"type": "String"
+			},
+			{
+				"name": "Business Unit",
+				"type": "String"
+			},
+			{
+				"name": "BL/Area",
+				"type": "String"
+			},
+			{
+				"name": "Area",
+				"type": "String"
+			},
+			{
+				"name": "Country",
+				"type": "String"
+			},
+			{
+				"name": "Company code",
+				"type": "String"
+			},
+			{
+				"name": "Company Description",
+				"type": "String"
+			},
+			{
+				"name": "City",
+				"type": "String"
+			},
+			{
+				"name": "Location",
+				"type": "String"
+			},
+			{
+				"name": "Cost center",
+				"type": "String"
+			},
+			{
+				"name": "Org 2",
+				"type": "String"
+			},
+			{
+				"name": "Org 3",
+				"type": "String"
+			},
+			{
+				"name": "Org 4",
+				"type": "String"
+			},
+			{
+				"name": "Org 5",
+				"type": "String"
+			},
+			{
+				"name": "Field service",
+				"type": "String"
+			},
+			{
+				"name": "Own / Personnel / Subcontractor",
+				"type": "String"
+			},
+			{
+				"name": "Degree of severity",
+				"type": "String"
+			},
+			{
+				"name": "Type",
+				"type": "String"
+			},
+			{
+				"name": "Line manager ID",
+				"type": "String"
+			},
+			{
+				"name": "Line manager",
+				"type": "String"
+			},
+			{
+				"name": "DocID",
+				"type": "String"
+			},
+			{
+				"name": "Type of near miss",
+				"type": "String"
+			},
+			{
+				"name": "Description of incident",
+				"type": "String"
+			},
+			{
+				"name": "Place of incident",
+				"type": "String"
+			},
+			{
+				"name": "Project",
+				"type": "String"
+			},
+			{
+				"name": "Status",
+				"type": "String"
+			},
+			{
+				"name": "Reporting person",
+				"type": "String"
+			},
+			{
+				"name": "Responsible person",
+				"type": "String"
+			},
+			{
+				"name": "The accident occurred",
+				"type": "String"
+			},
+			{
+				"name": "Title",
+				"type": "String"
+			},
+			{
+				"name": "Date of incident",
+				"type": "String"
+			},
+			{
+				"name": "Time of incident",
+				"type": "String"
+			},
+			{
+				"name": "Immediate restrictive/corrective actions",
+				"type": "String"
+			},
+			{
+				"name": "Immediate restrictive/corrective actions for improvement",
+				"type": "String"
+			},
+			{
+				"name": "Type of Injury",
+				"type": "String"
+			},
+			{
+				"name": "Possible Causes",
+				"type": "String"
+			},
+			{
+				"name": "Potential severity of risk",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

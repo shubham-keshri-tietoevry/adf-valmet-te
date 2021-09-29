@@ -1,0 +1,15 @@
+{
+	"name": "LN_RUAT",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=uatlnls.valmet.com;initial catalog=lnruatdb;user id=Vstage\\\\SRV_DPSSQLREAD_DEV;trusted_connection=True;applicationintent=ReadOnly"
+		},
+		"connectVia": {
+			"referenceName": "dfreareuw001",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

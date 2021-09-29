@@ -1,0 +1,12 @@
+{
+	"name": "dfreareuw001",
+	"properties": {
+		"type": "SelfHosted",
+		"typeProperties": {
+			"linkedInfo": {
+				"resourceId": "/subscriptions/7d3dc2e2-f823-4af5-8533-754714be4654/resourcegroups/rgp-ear-euw-pd-001/providers/Microsoft.DataFactory/factories/dfa-ear-euw-pd-001/integrationruntimes/dfreareuw001",
+				"authorizationType": "Rbac"
+			}
+		}
+	}
+}

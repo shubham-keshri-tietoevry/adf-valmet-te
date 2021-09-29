@@ -1,0 +1,25 @@
+{
+	"name": "sofmedic_share_target",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dlsdpseuwshare001",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "valmet_poissaolot.csv",
+				"folderPath": "export/",
+				"fileSystem": "softmedic"
+			},
+			"columnDelimiter": "|",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,119 @@
+{
+	"name": "pl_ln_muat_to_dps",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.tables",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "LN Production data",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "@concat('select * from dbo.', item())",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "ParquetSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "ParquetWriteSettings"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_ln_muat",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_infor_ln_muat_parquet",
+									"type": "DatasetReference",
+									"parameters": {
+										"tables": {
+											"value": "@item()",
+											"type": "Expression"
+										},
+										"windowStart": "@formatDateTime(pipeline().parameters.windowStart, 'yyyy/MM/dd')"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"tables": {
+				"type": "array",
+				"defaultValue": [
+					"ttisfc0011001",
+					"ttisfc0101001",
+					"tcprrp1001001",
+					"cprrp200",
+					"cprrp105",
+					"cprrp010"
+				]
+			},
+			"windowStart": {
+				"type": "string",
+				"defaultValue": "2021-06-17T22:00:00Z"
+			}
+		},
+		"variables": {
+			"tableList": {
+				"type": "Array",
+				"defaultValue": [
+					"ttisfc0011001",
+					"ttisfc0101001",
+					"tcprrp1001001",
+					"cprrp200",
+					"cprrp105",
+					"cprrp010"
+				]
+			}
+		},
+		"folder": {
+			"name": "ln"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-09-28T11:27:05Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,25 @@
+{
+	"name": "Keto_Daily_2200",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2021-08-02T18:51:00",
+				"timeZone": "FLE Standard Time",
+				"schedule": {
+					"minutes": [
+						0
+					],
+					"hours": [
+						22
+					]
+				}
+			}
+		}
+	}
+}

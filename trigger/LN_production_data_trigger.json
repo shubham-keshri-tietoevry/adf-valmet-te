@@ -1,0 +1,34 @@
+{
+	"name": "LN_production_data_trigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pl_ln_muat_to_dps",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"tables": [
+						"ttisfc0011001",
+						"ttisfc0101001",
+						"tcprrp1001001",
+						"cprrp200",
+						"cprrp105",
+						"cprrp010"
+					]
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 15,
+				"startTime": "2021-06-16T11:35:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}

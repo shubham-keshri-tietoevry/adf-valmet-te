@@ -1,0 +1,383 @@
+{
+	"name": "spotlight_to_dps_all",
+	"properties": {
+		"description": "Pipeline issues queries to the spotlight SOAP web service to access the needed location information",
+		"activities": [
+			{
+				"name": "retrieve_password",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": true,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://akv-dps-euw-dv-001.vault.azure.net/secrets/spotlight-soap-pass/217e80462cc84fbdb4b9685b260ef6cf?api-version=7.0",
+					"method": "GET",
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://vault.azure.net"
+					}
+				}
+			},
+			{
+				"name": "LoopRequests",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "retrieve_password",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.methods",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Load data from spotlight",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.00:15:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [
+								{
+									"name": "Source",
+									"value": "/ws/xmlexport.asmx"
+								}
+							],
+							"typeProperties": {
+								"source": {
+									"type": "BinarySource",
+									"storeSettings": {
+										"type": "HttpReadSettings",
+										"requestMethod": "POST",
+										"additionalHeaders": "Content-Type: application/soap+xml; charset=utf-8",
+										"requestBody": {
+											"value": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap12:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">\n  <soap12:Body>\n    <ExtractXML xmlns=\"https://www.rivosafeguard.com/ws\">\n      <strUsername>webservice_export</strUsername>\n      <strPassword>@{activity('retrieve_password').output.value}</strPassword>\n      <strGUID>D6F7006E5B5A49669E11</strGUID>\n      <strXML>\n            &lt;export&gt; \n                &lt;type&gt;@{item()}&lt;/type&gt;\n            &lt;/export&gt; \n\t</strXML>\n    </ExtractXML>\n  </soap12:Body>\n</soap12:Envelope>",
+											"type": "Expression"
+										},
+										"requestTimeout": ""
+									},
+									"formatSettings": {
+										"type": "BinaryReadSettings"
+									}
+								},
+								"sink": {
+									"type": "BinarySink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "spotlight_source",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "spotlight_bam_export_staging_xml",
+									"type": "DatasetReference",
+									"parameters": {
+										"method": "@item()",
+										"prefix": {
+											"value": "@formatDateTime(pipeline().parameters.windowStart, 'yyyy/MM/dd')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						},
+						{
+							"name": "no_spamming",
+							"type": "Wait",
+							"dependsOn": [
+								{
+									"activity": "Load data from spotlight",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 1
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Rename-Rivo-RiskEngine-758",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "LoopRequests",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "BinarySource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"deleteFilesAfterCompletion": true
+						},
+						"formatSettings": {
+							"type": "BinaryReadSettings"
+						}
+					},
+					"sink": {
+						"type": "BinarySink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "spotlight_bam_export_staging_xml",
+						"type": "DatasetReference",
+						"parameters": {
+							"method": "Rivo.RiskEngine.Object_758",
+							"prefix": {
+								"value": "@formatDateTime(pipeline().parameters.windowStart, 'yyyy/MM/dd')",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "spotlight_bam_export_staging_xml",
+						"type": "DatasetReference",
+						"parameters": {
+							"method": "lncopqandothererplinks",
+							"prefix": {
+								"value": "@formatDateTime(pipeline().parameters.windowStart, 'yyyy/MM/dd')",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "Rename-Rivo-RiskEngine-753",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "LoopRequests",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "BinarySource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"deleteFilesAfterCompletion": true
+						},
+						"formatSettings": {
+							"type": "BinaryReadSettings"
+						}
+					},
+					"sink": {
+						"type": "BinarySink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "spotlight_bam_export_staging_xml",
+						"type": "DatasetReference",
+						"parameters": {
+							"method": "Rivo.RiskEngine.Object_753",
+							"prefix": {
+								"value": "@formatDateTime(pipeline().parameters.windowStart, 'yyyy/MM/dd')",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "spotlight_bam_export_staging_xml",
+						"type": "DatasetReference",
+						"parameters": {
+							"method": "lessonslearned",
+							"prefix": {
+								"value": "@formatDateTime(pipeline().parameters.windowStart, 'yyyy/MM/dd')",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "CopyAccidents",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "BinarySource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true
+						},
+						"formatSettings": {
+							"type": "BinaryReadSettings"
+						}
+					},
+					"sink": {
+						"type": "BinarySink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "spotlight_accidents_target",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "spotlight_bam_export_staging_xml",
+						"type": "DatasetReference",
+						"parameters": {
+							"method": "accidents",
+							"prefix": "@formatDateTime(pipeline().parameters.windowStart, 'yyyy/MM/dd')"
+						}
+					}
+				]
+			},
+			{
+				"name": "CopyUsers",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "BinarySource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true
+						},
+						"formatSettings": {
+							"type": "BinaryReadSettings"
+						}
+					},
+					"sink": {
+						"type": "BinarySink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "spotlight_users_target",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "spotlight_bam_export_staging_xml",
+						"type": "DatasetReference",
+						"parameters": {
+							"method": "users",
+							"prefix": "@formatDateTime(pipeline().parameters.windowStart, 'yyyy/MM/dd')"
+						}
+					}
+				]
+			}
+		],
+		"parameters": {
+			"windowStart": {
+				"type": "string",
+				"defaultValue": "2021-02-18T12:00:00Z"
+			},
+			"methods": {
+				"type": "array",
+				"defaultValue": [
+					"allactions",
+					"checklists",
+					"riskassessments",
+					"checklistanswers",
+					"investigations",
+					"accidentforms",
+					"hazards",
+					"locations",
+					"attributevalues"
+				]
+			}
+		},
+		"folder": {
+			"name": "Spotlight"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-09-28T12:53:41Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

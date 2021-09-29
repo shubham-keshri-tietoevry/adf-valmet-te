@@ -1,0 +1,38 @@
+{
+	"name": "Spotlight_BAM_Trigger_0730",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "spotlight_to_dps_all",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"windowStart": "@trigger().scheduledTime",
+					"methods": [
+						"allactions",
+						"checklistanswers",
+						"investigations",
+						"accidentforms",
+						"hazards",
+						"locations",
+						"attributevalues",
+						"Rivo.RiskEngine.Object_753",
+						"Rivo.RiskEngine.Object_758"
+					]
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2021-01-19T07:30:00",
+				"timeZone": "FLE Standard Time"
+			}
+		}
+	}
+}

@@ -1,0 +1,22 @@
+{
+	"name": "LN_PROD",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "akvdpseuw001",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "ln-prod-connection-string"
+			}
+		},
+		"connectVia": {
+			"referenceName": "dfreareuw001",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

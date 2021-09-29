@@ -1,0 +1,25 @@
+{
+	"name": "flexim_to_Bam_dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dlsdpseuwraw001",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "flexim"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "flexim"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

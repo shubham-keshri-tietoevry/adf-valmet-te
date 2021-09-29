@@ -1,0 +1,9 @@
+{
+	"name": "dfa-dps-euw-te-001",
+	"location": "westeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "9e40fe6e-2a97-4499-bf35-71c6a8eab2a3",
+		"tenantId": "65f8dbd7-eb30-4ddc-88b3-f1f6fbea6ba2"
+	}
+}

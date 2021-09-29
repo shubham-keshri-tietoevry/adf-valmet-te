@@ -1,0 +1,29 @@
+{
+	"name": "flexim",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Epic 2775 - Flexim to BAM",
+		"annotations": [],
+		"type": "Sftp",
+		"typeProperties": {
+			"host": "10.40.154.60",
+			"port": 22,
+			"skipHostKeyValidation": true,
+			"authenticationType": "Basic",
+			"userName": "pamsiirto",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "akvdpseuw001",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "flexim-pass"
+			},
+			"allowKeyboardInteractiveAuth": true
+		},
+		"connectVia": {
+			"referenceName": "dfreareuw001",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
