@@ -1,0 +1,272 @@
+{
+	"name": "draft radar raw data delta tables to dps",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get tableList from metadata db",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select tablename from @{pipeline().parameters.metaTableName} where pipelinename = '@{pipeline().parameters.useCaseName}'  AND active = 1 AND load = 'delta'",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "usecase_parameters",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Parse table names",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "Get tableList from metadata db",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/LN Production Notebooks/string2Array",
+					"baseParameters": {
+						"value": {
+							"value": "@string(activity('Get tableList from metadata db').output.value)",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "dps_jobs_cluster",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Loop all tables",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Parse table names",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Parse table names').output.runOutput",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy full tables over OData to raw storage",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Set lastTimestamp",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "ODataSource",
+									"query": {
+										"value": "@concat('$filter=FIN_MONTH_T ge ', variables('lastTimestamp'), 'Z')",
+										"type": "Expression"
+									},
+									"httpRequestTimeout": "00:05:00"
+								},
+								"sink": {
+									"type": "ParquetSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "ParquetWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "Radar_OData_connection",
+									"type": "DatasetReference",
+									"parameters": {
+										"currentTable": {
+											"value": "@toUpper(item())",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "RawDataset",
+									"type": "DatasetReference",
+									"parameters": {
+										"tableName": {
+											"value": "@item()",
+											"type": "Expression"
+										},
+										"useCaseName": "@pipeline().parameters.useCaseName"
+									}
+								}
+							]
+						},
+						{
+							"name": "Save a new timestamp to database",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "Copy full tables over OData to raw storage",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[dbo].[save_new_timestamp_to_table]",
+								"storedProcedureParameters": {
+									"newTimestamp": {
+										"value": {
+											"value": "@formatDateTime(utcnow(), 'yyyy-MM-ddTHH:mm:ssZ')",
+											"type": "Expression"
+										},
+										"type": "DateTime"
+									},
+									"pipelineName": {
+										"value": "radar",
+										"type": "String"
+									},
+									"tableName": {
+										"value": {
+											"value": "@item()",
+											"type": "Expression"
+										},
+										"type": "String"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "asqdpseuwpd002",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "Get the latest timestamp for the table",
+							"type": "Lookup",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderQuery": {
+										"value": "select lasttimestamp from @{pipeline().parameters.metaTableName}\nwhere pipelinename = '@{pipeline().parameters.useCaseName}' \nAND tablename  = '@{item()}'\nAND active = 1 \nAND load = 'delta'\n",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "usecase_parameters",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": true
+							}
+						},
+						{
+							"name": "Set lastTimestamp",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Get the latest timestamp for the table",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "startMonth",
+								"value": {
+									"value": "@activity('Get the latest timestamp for the table').output.firstRow.lasttimestamp",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"useCaseName": {
+				"type": "string",
+				"defaultValue": "radar"
+			},
+			"metaTableName": {
+				"type": "string",
+				"defaultValue": "generic_pipeline_parameter"
+			}
+		},
+		"variables": {
+			"lastTimestamp": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "radar"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-09-30T07:27:47Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,24 @@
+{
+	"name": "Radar_OData_connection",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "radar odata connection2",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"currentTable": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "ODataResource",
+		"schema": [],
+		"typeProperties": {
+			"path": {
+				"value": "@dataset().currentTable",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

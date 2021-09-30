@@ -1,0 +1,45 @@
+{
+	"name": "radar full data load trigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "radar raw data full tables to dps",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"useCaseName": "radar",
+					"metaTableName": "generic_pipeline_parameter"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "radar custom history delta",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"useCaseName": "radar"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2021-09-29T10:35:00",
+				"timeZone": "FLE Standard Time",
+				"schedule": {
+					"minutes": [
+						1
+					],
+					"hours": [
+						0
+					]
+				}
+			}
+		}
+	}
+}

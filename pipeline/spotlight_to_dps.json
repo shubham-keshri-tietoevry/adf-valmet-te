@@ -82,7 +82,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "https://akv-dps-euw-dv-001.vault.azure.net/secrets/spotlight-soap-pass/217e80462cc84fbdb4b9685b260ef6cf?api-version=7.0",
+					"url": "https://akv-dps-euw-pd-001.vault.azure.net/secrets/spotlight-soap-pass?api-version=7.0",
 					"method": "GET",
 					"authentication": {
 						"type": "MSI",
@@ -171,10 +171,10 @@
 			}
 		},
 		"folder": {
-			"name": "Spotlight"
+			"name": "spotlight"
 		},
 		"annotations": [],
-		"lastPublishTime": "2021-09-28T12:53:41Z"
+		"lastPublishTime": "2021-09-30T07:27:45Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }

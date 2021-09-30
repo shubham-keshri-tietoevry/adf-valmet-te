@@ -1,0 +1,29 @@
+{
+	"name": "service order full data set to staging",
+	"properties": {
+		"activities": [
+			{
+				"name": "raw data to staging",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "raw data to staging",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"useCaseName": "service_order"
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "infor-ln/service_order"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-09-30T07:27:48Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

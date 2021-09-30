@@ -1,0 +1,11 @@
+{
+	"name": "akvdpseuwpd002",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://akv-dps-euw-pd-002.vault.azure.net/"
+		}
+	}
+}

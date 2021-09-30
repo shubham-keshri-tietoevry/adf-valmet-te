@@ -2,7 +2,7 @@
 	"name": "softmedic_copy_files_destination",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "dlsdpseuwraw001",
+			"referenceName": "softmedic_copy_files_destination",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],

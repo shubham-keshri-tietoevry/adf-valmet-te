@@ -26,7 +26,7 @@
 					"name": "Parse1"
 				}
 			],
-			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tformat: 'xml',\n\tfileSystem: 'staging',\n\tfolderPath: 'spotlight/checklists',\n\tfileName: 'checklists.xml',\n\tvalidationMode: 'none',\n\tnamespaces: true) ~> checklists\nchecklists parse(format: 'xml',\n\tnamespaces: true) ~> Parse1\nParse1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\t{\"Date of creation\";\"Type\";\"Inspection type\";\"Doc ID\";\"Title\";\"Date of incident\";\"Valmet Employee ID\"} as string\n\t),\n\tpartitionFileNames:['HSEaudit.csv'],\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> sink1"
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tformat: 'xml',\n\tfileSystem: 'staging',\n\tfolderPath: 'spotlight/checklists',\n\tfileName: 'checklists.xml',\n\tvalidationMode: 'none',\n\tnamespaces: true) ~> checklists\nchecklists parse(format: 'xml',\n\tnamespaces: true) ~> Parse1\nParse1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['HSEaudit.csv'],\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> sink1"
 		}
 	}
 }

@@ -1,0 +1,29 @@
+{
+	"name": "radar-file-trigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "radar raw data to share",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"folderPath": "@triggerBody().folderPath",
+					"fileName": "@triggerBody().fileName"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/radar/blobs/dwh",
+			"blobPathEndsWith": ".parquet",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/3035ea77-3a0d-432b-8a69-4f09e32ce80d/resourceGroups/rgp-dps-euw-pd-zone-raw/providers/Microsoft.Storage/storageAccounts/dlsdpseuwpdraw001",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}

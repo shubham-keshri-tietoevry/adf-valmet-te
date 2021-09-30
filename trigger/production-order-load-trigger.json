@@ -1,0 +1,29 @@
+{
+	"name": "production-order-load-trigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "wrapper_ln_production_orders",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"fileName": "@triggerBody().fileName",
+					"folderPath": "@triggerBody().folderPath"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/infor-ln/blobs/production-order/",
+			"blobPathEndsWith": "dbo.ttisfc0011001.parquet",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/3035ea77-3a0d-432b-8a69-4f09e32ce80d/resourceGroups/rgp-dps-euw-pd-zone-raw/providers/Microsoft.Storage/storageAccounts/dlsdpseuwpdraw001",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}

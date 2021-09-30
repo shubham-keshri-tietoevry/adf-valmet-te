@@ -1,0 +1,36 @@
+{
+	"name": "LNFullStagingDataSet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dlsdpseuwpdstaging001",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"folderPath": {
+				"type": "string"
+			},
+			"fileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@{dataset().fileName}.parquet",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@{dataset().folderPath}",
+					"type": "Expression"
+				},
+				"fileSystem": "infor-ln"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

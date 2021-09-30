@@ -1,0 +1,489 @@
+{
+	"name": "LNTableFullDataSet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dlsdpseuwpdraw001",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"folderPath": {
+				"type": "string"
+			},
+			"fileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@{dataset().fileName}.parquet",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@{dataset().folderPath}",
+					"type": "Expression"
+				},
+				"fileSystem": "infor-ln"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "t_pdno",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_cprj",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_mitm",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_qrdr",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "t_rdld",
+				"type": "INT96"
+			},
+			{
+				"name": "t_cwar",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_revi",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_rwko",
+				"type": "INT32"
+			},
+			{
+				"name": "t_rwtp",
+				"type": "INT32"
+			},
+			{
+				"name": "t_opro",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_efdt",
+				"type": "INT96"
+			},
+			{
+				"name": "t_rgrp",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_mfre",
+				"type": "INT32"
+			},
+			{
+				"name": "t_shsp",
+				"type": "INT32"
+			},
+			{
+				"name": "t_prcd",
+				"type": "INT32"
+			},
+			{
+				"name": "t_prlb",
+				"type": "INT32"
+			},
+			{
+				"name": "t_bfep",
+				"type": "INT32"
+			},
+			{
+				"name": "t_bfhr",
+				"type": "INT32"
+			},
+			{
+				"name": "t_rswc",
+				"type": "INT32"
+			},
+			{
+				"name": "t_trcp",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_clco",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_cctt",
+				"type": "INT32"
+			},
+			{
+				"name": "t_grid",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_osta",
+				"type": "INT32"
+			},
+			{
+				"name": "t_cdld",
+				"type": "INT96"
+			},
+			{
+				"name": "t_cada",
+				"type": "INT96"
+			},
+			{
+				"name": "t_fres",
+				"type": "INT32"
+			},
+			{
+				"name": "t_clot",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_lbid",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_defc",
+				"type": "INT32"
+			},
+			{
+				"name": "t_bloc",
+				"type": "INT32"
+			},
+			{
+				"name": "t_oprp",
+				"type": "INT32"
+			},
+			{
+				"name": "t_dstp",
+				"type": "INT32"
+			},
+			{
+				"name": "t_odpr",
+				"type": "INT32"
+			},
+			{
+				"name": "t_cpla",
+				"type": "INT32"
+			},
+			{
+				"name": "t_prdt",
+				"type": "INT96"
+			},
+			{
+				"name": "t_pldt",
+				"type": "INT96"
+			},
+			{
+				"name": "t_mmno",
+				"type": "INT32"
+			},
+			{
+				"name": "t_mmpo",
+				"type": "INT32"
+			},
+			{
+				"name": "t_plid",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_sfpl",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_apdt",
+				"type": "INT96"
+			},
+			{
+				"name": "t_cmdt",
+				"type": "INT96"
+			},
+			{
+				"name": "t_adld",
+				"type": "INT96"
+			},
+			{
+				"name": "t_cldt",
+				"type": "INT96"
+			},
+			{
+				"name": "t_qntl",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "t_qtdl",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "t_qdlv",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "t_qrjc",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "t_qtor",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "t_qqar",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "t_qtbf",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "t_qbfd",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "t_qoor",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "t_covn",
+				"type": "INT32"
+			},
+			{
+				"name": "t_roul",
+				"type": "INT32"
+			},
+			{
+				"name": "t_oprn",
+				"type": "INT32"
+			},
+			{
+				"name": "t_matl",
+				"type": "INT32"
+			},
+			{
+				"name": "t_matn",
+				"type": "INT32"
+			},
+			{
+				"name": "t_subn",
+				"type": "INT32"
+			},
+			{
+				"name": "t_chel",
+				"type": "INT32"
+			},
+			{
+				"name": "t_sawl",
+				"type": "INT32"
+			},
+			{
+				"name": "t_cutl",
+				"type": "INT32"
+			},
+			{
+				"name": "t_recn",
+				"type": "INT32"
+			},
+			{
+				"name": "t_insn",
+				"type": "INT32"
+			},
+			{
+				"name": "t_srnl",
+				"type": "INT32"
+			},
+			{
+				"name": "t_odpt",
+				"type": "INT32"
+			},
+			{
+				"name": "t_crpr_1",
+				"type": "INT32"
+			},
+			{
+				"name": "t_crpr_2",
+				"type": "INT32"
+			},
+			{
+				"name": "t_crpr_3",
+				"type": "INT32"
+			},
+			{
+				"name": "t_crpr_4",
+				"type": "INT32"
+			},
+			{
+				"name": "t_aprp",
+				"type": "INT32"
+			},
+			{
+				"name": "t_spcn",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_ofbp",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_subc",
+				"type": "INT32"
+			},
+			{
+				"name": "t_owns",
+				"type": "INT32"
+			},
+			{
+				"name": "t_mocp",
+				"type": "INT32"
+			},
+			{
+				"name": "t_reco",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_poas",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_smfs",
+				"type": "INT32"
+			},
+			{
+				"name": "t_asrp",
+				"type": "INT32"
+			},
+			{
+				"name": "t_awtc",
+				"type": "INT32"
+			},
+			{
+				"name": "t_insp",
+				"type": "INT32"
+			},
+			{
+				"name": "t_fain",
+				"type": "INT32"
+			},
+			{
+				"name": "t_txta",
+				"type": "INT32"
+			},
+			{
+				"name": "t_rcd_utc",
+				"type": "INT96"
+			},
+			{
+				"name": "t_Refcntd",
+				"type": "INT32"
+			},
+			{
+				"name": "t_Refcntu",
+				"type": "INT32"
+			},
+			{
+				"name": "t_cdf_cact",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_cdf_citg",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_cdf_cpcl",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_cdf_cprj",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_cdf_csgp",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_cdf_csig",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_cdf_draw",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_cdf_item",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_cdf_koor",
+				"type": "INT32"
+			},
+			{
+				"name": "t_cdf_orno",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_cdf_peko",
+				"type": "INT32"
+			},
+			{
+				"name": "t_cdf_peor",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_cdf_pono",
+				"type": "INT32"
+			},
+			{
+				"name": "t_cdf_prgm",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_cdf_prio",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_cdf_labl",
+				"type": "INT32"
+			},
+			{
+				"name": "t_cdf_paor",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_cdf_intx",
+				"type": "INT32"
+			},
+			{
+				"name": "t_cdf_dorg",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_cdf_hrpr",
+				"type": "INT32"
+			},
+			{
+				"name": "t_cdf_mtis",
+				"type": "INT32"
+			},
+			{
+				"name": "t_cdf_drwn",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_cdf_revn",
+				"type": "UTF8"
+			},
+			{
+				"name": "t_cdf_opcm",
+				"type": "INT32"
+			},
+			{
+				"name": "t_cdf_dsdt",
+				"type": "INT96"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

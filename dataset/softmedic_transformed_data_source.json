@@ -2,7 +2,7 @@
 	"name": "softmedic_transformed_data_source",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "dlsdpseuwraw001",
+			"referenceName": "softmedic_copy_files_destination",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -14,10 +14,12 @@
 			},
 			"columnDelimiter": "|",
 			"escapeChar": "\\",
+			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
 		"schema": [
 			{
+				"name": "Alkupäivämäärä|Loppupäivämäärä|Diagnoosikoodi|potLaakeId|potOsastokoodi|potPid|potHRyhma|potPostiTP|OSASAIRAUSLOMA",
 				"type": "String"
 			}
 		]

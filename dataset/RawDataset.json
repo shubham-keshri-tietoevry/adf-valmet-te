@@ -1,0 +1,39 @@
+{
+	"name": "RawDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dlsdpseuwpdraw001",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"tableName": {
+				"type": "string"
+			},
+			"useCaseName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@{dataset().tableName}.parquet",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@concat(dataset().tableName, '/',  formatDateTime(utcnow(),'yyyy'),'/',formatDateTime(utcnow(),'MM'),'/',formatDateTime(utcnow(),'dd'),'/',formatDateTime(utcnow(),'HH'),'/',formatDateTime(utcnow(),'mm')  )",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().useCaseName",
+					"type": "Expression"
+				}
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

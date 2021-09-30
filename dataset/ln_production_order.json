@@ -1,0 +1,13 @@
+{
+	"name": "ln_production_order",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ln_muat",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

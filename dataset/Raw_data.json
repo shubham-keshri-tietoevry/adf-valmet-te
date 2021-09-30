@@ -1,0 +1,21 @@
+{
+	"name": "Raw_data",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dlsdpseuwpdraw001",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "raw",
+				"fileSystem": "infor-ln"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,22 @@
+{
+	"name": "RestService1",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://odata.eu-services.moventus.com/api/odata4/valmet_dsV4/",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Basic",
+			"userName": "radar001|valmet",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "akvdpseuwdv001",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "radar-password"
+			}
+		}
+	}
+}

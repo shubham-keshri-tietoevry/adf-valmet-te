@@ -1,0 +1,24 @@
+{
+	"name": "transformed_production_orders",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dlsdpseuwpdraw001",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "production-order/results/ln_production_order.csv",
+				"fileSystem": "infor-ln"
+			},
+			"columnDelimiter": "|",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

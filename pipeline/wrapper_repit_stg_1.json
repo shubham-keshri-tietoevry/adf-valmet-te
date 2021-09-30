@@ -17,7 +17,7 @@
 			}
 		],
 		"folder": {
-			"name": "customer_orders"
+			"name": "customer_portal"
 		},
 		"annotations": [
 			"BranchVersion:1.0000",
@@ -25,7 +25,7 @@
 			"TemplateVersion:1.0000",
 			"TemplateName:Create.ADFV2.Pipeline"
 		],
-		"lastPublishTime": "2021-09-28T12:52:56Z"
+		"lastPublishTime": "2021-09-30T07:27:47Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }

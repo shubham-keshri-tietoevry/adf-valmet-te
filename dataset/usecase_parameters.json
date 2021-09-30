@@ -1,0 +1,28 @@
+{
+	"name": "usecase_parameters",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "asqdpseuwpd002",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "pipelineName",
+				"type": "varchar"
+			},
+			{
+				"name": "tableList",
+				"type": "varchar"
+			},
+			{
+				"name": "lastTimestamp",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

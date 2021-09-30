@@ -5,9 +5,6 @@
 			"referenceName": "valmetdw",
 			"type": "LinkedServiceReference"
 		},
-		"folder": {
-			"name": "customer_orders"
-		},
 		"annotations": [
 			"BranchVersion:1.0000",
 			"PipelineVersion:1.0000",
@@ -30,7 +27,7 @@
 			},
 			{
 				"name": "ORDER_STATUS",
-				"type": "Int32"
+				"type": "String"
 			},
 			{
 				"name": "ORDER_STATUS_NAME",
@@ -42,7 +39,7 @@
 			},
 			{
 				"name": "ORDER_ROW_STATUS",
-				"type": "Int32"
+				"type": "Int64"
 			},
 			{
 				"name": "ORDER_ROW_STATUS_NAME",
@@ -74,7 +71,7 @@
 			},
 			{
 				"name": "QUANTITY",
-				"type": "Decimal"
+				"type": "String"
 			},
 			{
 				"name": "UNIT",
@@ -82,11 +79,11 @@
 			},
 			{
 				"name": "AMOUNT_OCUR",
-				"type": "Decimal"
+				"type": "String"
 			},
 			{
 				"name": "PRICE_OCUR",
-				"type": "Decimal"
+				"type": "String"
 			},
 			{
 				"name": "CURRENCY",
@@ -94,7 +91,7 @@
 			},
 			{
 				"name": "CUSTOMER_ID",
-				"type": "Int32"
+				"type": "Int64"
 			},
 			{
 				"name": "CUSTOMER_NAME",
@@ -130,7 +127,7 @@
 			},
 			{
 				"name": "CORPORATION_ID",
-				"type": "Int32"
+				"type": "Int64"
 			},
 			{
 				"name": "CORPORATION_NAME",
@@ -158,7 +155,7 @@
 			},
 			{
 				"name": "SALES_PERSON",
-				"type": "Int32"
+				"type": "Int64"
 			},
 			{
 				"name": "SALES_PERSON_DESC",
@@ -166,15 +163,15 @@
 			},
 			{
 				"name": "SHIPPING_DATE",
-				"type": "DateTime"
+				"type": "String"
 			},
 			{
 				"name": "ESTIMATED_DATE_OF_ARRIVAL",
-				"type": "DateTime"
+				"type": "String"
 			},
 			{
 				"name": "ACTUAL_DATE_OF_ARRIVAL",
-				"type": "DateTime"
+				"type": "String"
 			},
 			{
 				"name": "SHIPPING_STATUS",
@@ -190,11 +187,11 @@
 			},
 			{
 				"name": "CTP_HORIZON",
-				"type": "Int32"
+				"type": "String"
 			},
 			{
 				"name": "ESTIMATED_DATE_OF_DEPARTURE",
-				"type": "DateTime"
+				"type": "String"
 			},
 			{
 				"name": "CUSTOMER_PURCHASER",
@@ -202,7 +199,7 @@
 			},
 			{
 				"name": "SHIPPING_MARK",
-				"type": "Int32"
+				"type": "String"
 			},
 			{
 				"name": "SALES_OFFICE_LOCATION",
@@ -218,50 +215,6 @@
 			},
 			{
 				"name": "SEARCH_KEY",
-				"type": "String"
-			},
-			{
-				"name": "MACHINE",
-				"type": "String"
-			},
-			{
-				"name": "MACHINE_POSITION",
-				"type": "String"
-			},
-			{
-				"name": "PRODUCT_GROUP_FABRICS",
-				"type": "String"
-			},
-			{
-				"name": "PRODUCT_GROUP_FABRICS_DESC",
-				"type": "String"
-			},
-			{
-				"name": "ORGANISATION_LEVEL_F",
-				"type": "String"
-			},
-			{
-				"name": "ORGANISATION_LEVEL_F_DESC",
-				"type": "String"
-			},
-			{
-				"name": "ORGANISATION_LEVEL_F2",
-				"type": "String"
-			},
-			{
-				"name": "ORGANISATION_LEVEL_F2_DESC",
-				"type": "String"
-			},
-			{
-				"name": "SALES_ORDER_TYPE",
-				"type": "String"
-			},
-			{
-				"name": "SALES_ORDER_TYPE_DESC",
-				"type": "String"
-			},
-			{
-				"name": "DELIVERY_TERMS",
 				"type": "String"
 			}
 		],

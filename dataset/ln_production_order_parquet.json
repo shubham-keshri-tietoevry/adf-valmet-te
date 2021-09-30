@@ -1,0 +1,34 @@
+{
+	"name": "ln_production_order_parquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dlsdpseuwpdraw001",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"tableName": {
+				"type": "string",
+				"defaultValue": "@item()"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@{dataset().tableName}.parquet",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@concat('production-order','/',formatDateTime(utcnow(),'yyyy'),'/',formatDateTime(utcnow(),'MM'),'/',formatDateTime(utcnow(),'dd'),'/',formatDateTime(utcnow(),'HH'),'/',formatDateTime(utcnow(),'mm')  )\n\n",
+					"type": "Expression"
+				},
+				"fileSystem": "infor-ln"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

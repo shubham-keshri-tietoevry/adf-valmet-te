@@ -1,0 +1,298 @@
+{
+	"name": "production_order_to_dps",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get timestamp",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select lasttimestamp from ln_pipeline_parameter where pipelinename = 'production_order'",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "usecase_parameters",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": true
+				}
+			},
+			{
+				"name": "Check production order count",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Set table name",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Set last timestamp",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": {
+							"value": "@concat('select count(t_pdno) as rows from ', variables('tableName'), ' WITH(NOLOCK) where t_rcd_utc >= ','''', variables('lastTimestamp'),'''')\n\n",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ln_production_order",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set rows variable",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Check production order count",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "rows",
+					"value": {
+						"value": "@string(activity('Check production order count').output.value[0].rows)\n",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "If rows greater than 0 get data",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Set rows variable",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@not(equals(variables('rows'), '0'))",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "production_order_to_dps",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"sqlReaderQuery": {
+										"value": "@concat('select * from ', variables('tableName'),' WITH(NOLOCK) where t_rcd_utc >= ','''', activity('Get timestamp').output.firstRow.lasttimestamp,'''')",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "ParquetSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "ParquetWriteSettings"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ln_production_order",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ln_production_order_parquet",
+									"type": "DatasetReference",
+									"parameters": {
+										"tableName": {
+											"value": "@variables('tableName')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						},
+						{
+							"name": "Save a new timestamp to database",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [
+								{
+									"activity": "production_order_to_dps",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[dbo].[save_new_timestamp]",
+								"storedProcedureParameters": {
+									"newTimestamp": {
+										"value": {
+											"value": "@utcnow()",
+											"type": "Expression"
+										},
+										"type": "DateTime"
+									},
+									"pipelineName": {
+										"value": "production_order",
+										"type": "String"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "asqdpseuwpd002",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Get table name",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select tablename from ln_pipeline_parameter where pipelinename = 'production_order'",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "usecase_parameters",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Set table name",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Get table name",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "tableName",
+					"value": {
+						"value": "@toLower(replace(replace(activity('Get table name').output.firstRow.tablename, '[\"', ''), '\"]',''))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set last timestamp",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Get timestamp",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "lastTimestamp",
+					"value": {
+						"value": "@activity('Get timestamp').output.firstRow.lasttimestamp",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"lastTimestamp": {
+				"type": "String"
+			},
+			"tableName": {
+				"type": "String"
+			},
+			"rows": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "infor-ln/production order"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-09-30T07:27:47Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

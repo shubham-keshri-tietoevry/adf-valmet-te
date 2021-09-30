@@ -1,0 +1,30 @@
+{
+	"name": "softmedic_results_to_share",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dlsdpseuwpdshare001",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "valmet_poissaolot.csv",
+				"folderPath": "export",
+				"fileSystem": "softmedic"
+			},
+			"columnDelimiter": "|",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Alkupäivämäärä|Loppupäivämäärä|Diagnoosikoodi|potLaakeId|potOsastokoodi|potPid|potHRyhma|potPostiTP|OSASAIRAUSLOMA",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

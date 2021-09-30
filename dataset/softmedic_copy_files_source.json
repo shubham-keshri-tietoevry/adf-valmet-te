@@ -9,8 +9,8 @@
 		"type": "Binary",
 		"typeProperties": {
 			"location": {
-				"type": "FileServerLocation",
-				"folderPath": "rapo_testi"
+				"type": "SftpLocation",
+				"folderPath": "/rapo_testi"
 			}
 		}
 	},

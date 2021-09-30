@@ -2,7 +2,7 @@
 	"name": "ds_ln_muat",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LN_MUAT",
+			"referenceName": "ln_muat",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {

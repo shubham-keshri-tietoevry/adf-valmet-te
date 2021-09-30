@@ -5,9 +5,6 @@
 			"referenceName": "repit",
 			"type": "LinkedServiceReference"
 		},
-		"folder": {
-			"name": "customer_orders"
-		},
 		"annotations": [
 			"BranchVersion:1.0000",
 			"PipelineVersion:1.0000",

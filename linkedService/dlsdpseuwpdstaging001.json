@@ -1,0 +1,11 @@
+{
+	"name": "dlsdpseuwpdstaging001",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://dlsdpseuwpdstaging001.dfs.core.windows.net"
+		}
+	}
+}

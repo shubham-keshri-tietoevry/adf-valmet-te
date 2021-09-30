@@ -2,7 +2,7 @@
 	"name": "DelimitedText1",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "dlsdpseuw001",
+			"referenceName": "dlsdpseuwpdraw001",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -10,20 +10,14 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "spotlight/checklists",
-				"fileSystem": "staging"
+				"folderPath": "test",
+				"fileSystem": "radar"
 			},
-			"columnDelimiter": ",",
+			"columnDelimiter": "|",
 			"escapeChar": "\\",
-			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": [
-			{
-				"name": "\"Date of creation\";\"Type\";\"Inspection type\";\"Doc ID\";\"Title\";\"Date of incident\";\"Valmet Employee ID\"",
-				"type": "String"
-			}
-		]
+		"schema": []
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
 }

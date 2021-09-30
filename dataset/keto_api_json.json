@@ -2,7 +2,7 @@
 	"name": "keto_api_json",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "dlsdpseuwraw001",
+			"referenceName": "dlsdpseuw001",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
@@ -25,7 +25,11 @@
 					"value": "@dataset().Filename",
 					"type": "Expression"
 				},
-				"fileSystem": "keto"
+				"folderPath": {
+					"value": "@dataset().Folder",
+					"type": "Expression"
+				},
+				"fileSystem": "staging"
 			}
 		},
 		"schema": {

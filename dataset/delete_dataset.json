@@ -1,0 +1,19 @@
+{
+	"name": "delete_dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dlsdpseuwpdshare001",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "production-order/export/staging",
+				"fileSystem": "infor-ln"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

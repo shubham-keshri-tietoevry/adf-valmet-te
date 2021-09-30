@@ -15,6 +15,10 @@
 				},
 				"secretName": "ompremfile-password"
 			}
+		},
+		"connectVia": {
+			"referenceName": "dfreareuw001",
+			"type": "IntegrationRuntimeReference"
 		}
 	}
 }
