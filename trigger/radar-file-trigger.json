@@ -20,7 +20,7 @@
 			"blobPathBeginsWith": "/radar/blobs/dwh",
 			"blobPathEndsWith": ".parquet",
 			"ignoreEmptyBlobs": true,
-			"scope": "/subscriptions/3035ea77-3a0d-432b-8a69-4f09e32ce80d/resourceGroups/rgp-dps-euw-pd-zone-raw/providers/Microsoft.Storage/storageAccounts/dlsdpseuwpdraw001",
+			"scope": "/subscriptions/3035ea77-3a0d-432b-8a69-4f09e32ce80d/resourceGroups/rgp-dps-euw-dv-zone-raw/providers/Microsoft.Storage/storageAccounts/dlsdpseuwdvraw001",
 			"events": [
 				"Microsoft.Storage.BlobCreated"
 			]
